@@ -10,21 +10,24 @@ class List extends React.Component {
         comer: { done: false }
       }
     };
-    this.updateTask = this.updateTask.bind(this);
   }
 
-  updateTask(e) {
-    let state;
-    if (e.type === "submit") {
-      e.preventDefault();
-      let newTask = this.refs.newTask.value;
-      state = this.state.tasks;
-      state[newTask] = { done: false };
-    } else {
-      console.log(e);
-    }
+  addTask(e) {
+    e.preventDefault();
+    let newTask = this.refs.newTask.value;
+    let state = this.state.tasks;
+    state[newTask] = { done: false };
+
     this.setState({
       tasks: state
+    });
+  }
+  removeTask(task) {
+    let tasks = this.state.tasks;
+    delete tasks[task];
+
+    this.setState({
+      tasks: tasks
     });
     console.log(this.state.tasks);
   }
@@ -32,16 +35,17 @@ class List extends React.Component {
   render() {
     return (
       <div>
-        <form onSubmit={this.updateTask}>
+        <form onSubmit={this.addTask.bind(this)}>
           <input type="text" ref="newTask" />
           <input type="submit" value="Add" />
         </form>
         <ul>
-          {Object.keys(this.state.tasks).map((key, index) => (
-            <li>
-              {" "}
-              {key}
-              <label onClick={this.updateTask}>DELETAR</label>
+          {Object.keys(this.state.tasks).map(task => (
+            <li ref="task">
+              {task}
+              <button onClick={this.removeTask.bind(this, task)}>
+                DELETAR
+              </button>
             </li>
           ))}
         </ul>
