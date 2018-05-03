@@ -1,0 +1,45 @@
+.container {
+  width: 400px;
+  margin: 100px auto;
+}
+form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+input[type="text"] {
+  width: 70%;
+  margin-right: 5px;
+}
+input[type="submit"] {
+  width: 30%;
+  border: none;
+  background-color: #000;
+  color: #fff;
+  padding: 15px;
+  text-transform: uppercase;
+}
+ul {
+  padding: 0;
+}
+ul li {
+  list-style: none;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: flex-end;
+  flex-direction: row;
+  align-self: flex-end;
+  text-align: left;
+  justify-content: space-between;
+  text-transform: uppercase;
+}
+
+ul li button {
+  margin-left: 25px;
+  width: 30%;
+  border: none;
+  background-color: #000;
+  color: #fff;
+  padding: 5px;
+  align-self: end;
+}
