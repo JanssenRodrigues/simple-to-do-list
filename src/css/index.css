@@ -1,3 +1,6 @@
+body {
+  background-color: #5f9ea0;
+}
 .container {
   width: 400px;
   margin: 100px auto;
@@ -33,6 +36,9 @@ ul li {
   text-align: left;
   justify-content: space-between;
   text-transform: uppercase;
+  background-color: #d0f8ff;
+  padding: 15px 5px;
+  border-radius: 5px;
 }
 ul li span {
   width: 40%;
@@ -45,4 +51,5 @@ ul li button {
   color: #fff;
   padding: 5px;
   align-self: end;
+  border-radius: 5px;
 }
