@@ -47,6 +47,20 @@ class Form extends React.Component {
     console.log(this.state.tasks);
   }
 
+  filterTasks(e) {
+    let isTrueSet = e.target.value === "true";
+    let obj = {};
+    obj = Object.entries(this.state.tasks)
+      .filter(task => task[1] === isTrueSet)
+      .reduce(
+        (accumulator, value) => ({ ...accumulator, [value[0]]: value[1] }),
+        {}
+      );
+    this.setState({
+      tasks: obj
+    });
+  }
+
   render() {
     return (
       <div className="container">
@@ -57,6 +71,14 @@ class Form extends React.Component {
             ref="newTask"
           />
           <input type="submit" value="Add" />
+          <select
+            onChange={this.filterTasks.bind(this)}
+            ref={input => (this.menu = input)}
+          >
+            <option>Todas</option>
+            <option value={true}>Feitas</option>
+            <option value={false}>Não Feitas</option>
+          </select>
         </form>
         <List
           tasks={this.state.tasks}

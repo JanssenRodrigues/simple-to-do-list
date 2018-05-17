@@ -11,7 +11,6 @@ class List extends React.Component {
     return (
       <li key={item} ref="task">
         <span style={{ textDecoration: value ? "line-through" : "none" }}>
-          {value}
           {item}
         </span>
         <button onClick={() => this.removeItem(item)}>DELETAR</button>
