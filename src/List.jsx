@@ -1,75 +1,39 @@
 import React from "react";
-import "./css/index.css";
 
 class List extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      tasks: {
-        correr: false,
-        pular: false,
-        comer: false
-      }
-    };
+    this.renderTasks = this.renderTasks.bind(this);
   }
 
-  addTask(e) {
-    e.preventDefault();
-    if (this.refs.newTask.value === "") {
-      return;
-    }
-    let newTask = this.refs.newTask.value;
-    let state = this.state.tasks;
-    state[newTask] = false;
-
-    this.setState({
-      tasks: state
-    });
+  renderTasks([item, value]) {
+    return (
+      <li key={item} ref="task">
+        <span style={{ textDecoration: value ? "line-through" : "none" }}>
+          {value}
+          {item}
+        </span>
+        <button onClick={() => this.removeItem(item)}>DELETAR</button>
+        <button onClick={() => this.changeItemStatus(item)}>
+          MUDAR STATUS
+        </button>
+      </li>
+    );
   }
-  removeTask(task) {
-    let tasks = this.state.tasks;
-    delete tasks[task];
 
-    this.setState({
-      tasks: tasks
-    });
+  removeItem(item) {
+    this.props.deleteTask(item);
   }
-  changeStatus(task) {
-    let state = this.state.tasks;
-    let newValue = (state[task] = !state[task]);
-    this.setState({
-      tasks: newValue
-    });
-    console.log(this.state.tasks);
+
+  changeItemStatus(item) {
+    this.props.changeTaskStatus(item);
   }
 
   render() {
-    return (
-      <div className="container">
-        <form onSubmit={this.addTask.bind(this)}>
-          <input
-            type="text"
-            placeholder="Digite uma nova tarefa"
-            ref="newTask"
-          />
-          <input type="submit" value="Add" />
-        </form>
-        <ul>
-          {Object.keys(this.state.tasks).map(task => (
-            <li
-              style={{ textDecoration: task.value ? "underline" : "none" }}
-              ref="task"
-              onClick={this.changeStatus.bind(this, task)}
-            >
-              {task}
-              <button onClick={this.removeTask.bind(this, task)}>
-                DELETAR
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
+    let todoTasks = this.props.tasks;
+    let listTasks = Object.entries(todoTasks).map(this.renderTasks);
+
+    return <ul>{listTasks}</ul>;
   }
 }
 
