@@ -7,10 +7,11 @@ class Form extends React.Component {
     super(props);
     this.state = {
       tasks: {
-        correr: true,
-        pular: false,
-        comer: false
-      }
+        correr: "done",
+        pular: "not done",
+        comer: "not done"
+      },
+      filter: "all"
     };
     this.removeTask = this.removeTask.bind(this);
     this.changeStatus = this.changeStatus.bind(this);
@@ -23,7 +24,7 @@ class Form extends React.Component {
     }
     let newTask = this.refs.newTask.value;
     let state = this.state.tasks;
-    state[newTask] = false;
+    state[newTask] = "not done";
 
     this.setState({
       tasks: state
@@ -40,24 +41,15 @@ class Form extends React.Component {
 
   changeStatus(task) {
     let state = this.state.tasks;
-    state[task] = !state[task];
+    state[task] = state[task] === "done" ? "not done" : "done";
     this.setState({
       tasks: state
     });
-    console.log(this.state.tasks);
   }
 
-  filterTasks(e) {
-    let isTrueSet = e.target.value === "true";
-    let obj = {};
-    obj = Object.entries(this.state.tasks)
-      .filter(task => task[1] === isTrueSet)
-      .reduce(
-        (accumulator, value) => ({ ...accumulator, [value[0]]: value[1] }),
-        {}
-      );
+  filterStatus(e) {
     this.setState({
-      tasks: obj
+      filter: e.target.value
     });
   }
 
@@ -72,16 +64,17 @@ class Form extends React.Component {
           />
           <input type="submit" value="Add" />
           <select
-            onChange={this.filterTasks.bind(this)}
+            onChange={this.filterStatus.bind(this)}
             ref={input => (this.menu = input)}
           >
-            <option>Todas</option>
-            <option value={true}>Feitas</option>
-            <option value={false}>Não Feitas</option>
+            <option value="all">Todas</option>
+            <option value="done">Feitas</option>
+            <option value="not done">Não Feitas</option>
           </select>
         </form>
         <List
           tasks={this.state.tasks}
+          filterBy={this.state.filter}
           deleteTask={this.removeTask}
           changeTaskStatus={this.changeStatus}
         />

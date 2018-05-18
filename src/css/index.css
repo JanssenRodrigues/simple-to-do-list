@@ -43,6 +43,12 @@ ul li {
 ul li span {
   width: 40%;
 }
+ul li.done {
+  background-color: #fbcac6;
+}
+ul li.done span {
+  text-decoration: line-through;
+}
 ul li button {
   margin-left: 5px;
   width: 30%;

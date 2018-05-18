@@ -9,10 +9,12 @@ class List extends React.Component {
 
   renderTasks([item, value]) {
     return (
-      <li key={item} ref="task">
-        <span style={{ textDecoration: value ? "line-through" : "none" }}>
-          {item}
-        </span>
+      <li
+        key={item}
+        ref="task"
+        className={value === "done" ? "done" : "not-done"}
+      >
+        <span>{item}</span>
         <button onClick={() => this.removeItem(item)}>DELETAR</button>
         <button onClick={() => this.changeItemStatus(item)}>
           MUDAR STATUS
@@ -28,10 +30,20 @@ class List extends React.Component {
   changeItemStatus(item) {
     this.props.changeTaskStatus(item);
   }
-
   render() {
     let todoTasks = this.props.tasks;
-    let listTasks = Object.entries(todoTasks).map(this.renderTasks);
+    let listTasks;
+    if (this.props.filterBy === "all") {
+      listTasks = Object.entries(todoTasks).map(this.renderTasks);
+    } else {
+      let filteredList = Object.entries(todoTasks)
+        .filter(task => task[1] === this.props.filterBy)
+        .reduce(
+          (accumulator, value) => ({ ...accumulator, [value[0]]: value[1] }),
+          {}
+        );
+      listTasks = Object.entries(filteredList).map(this.renderTasks);
+    }
 
     return (
       <ul>
